@@ -18,9 +18,8 @@ shared_scripts {
     'config.lua'
 }
 
-server_script 'sv_main.lua'
-
+server_script 'server.lua'
 client_scripts {
     '@uiprompt/uiprompt.lua',
-    'cl_main.lua'
+    'client.lua'
 }
