@@ -213,7 +213,7 @@ CreateThread(function()
             if wagonId then
                 sleep = 1000
                 local bootCoords = GetOffsetFromEntityInWorldCoords(wagon, 0.0, -2.3, 0.5)
-                Citizen.InvokeNative(0x2A32FAA57B937173, 0x50638AB9, bootCoords.x, bootCoords.y, bootCoords.z, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 255, 0, 255, false, false, 0, false, false) --Debug
+                -- Citizen.InvokeNative(0x2A32FAA57B937173, 0x50638AB9, bootCoords.x, bootCoords.y, bootCoords.z, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 255, 0, 255, false, false, 0, false, false) --Debug
                 local distance = #(coords - bootCoords)
                 if not lastWagonId or lastWagonId ~= wagonId then
                     lastWagonId = wagonId
