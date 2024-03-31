@@ -153,6 +153,13 @@ local function CreateRentBlip(x, y, z)
     Citizen.InvokeNative(0x9CB1A1623062F402, blipId, "Rent Hunting Wagon") --SetBlipName
 end
 
+local function TaskStatus(task)
+    local count = 0
+    repeat
+        count += 1
+        Wait(0)
+    until (GetScriptTaskStatus(cache.ped, task, true) == 8) or count > 100
+end
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
@@ -253,11 +260,7 @@ CreateThread(function()
         local offset = GetOffsetFromEntityInWorldCoords(wagon, 0.0, -2.7, 0.0)
 
         TaskTurnPedToFaceEntity(cache.ped, wagon, 100)
-        lib.waitFor(function()
-            if GetScriptTaskStatus(cache.ped, `SCRIPT_TASK_TURN_PED_TO_FACE_ENTITY`, true) == 8 then
-                return 'ok'
-            end
-        end)
+        TaskStatus(`SCRIPT_TASK_TURN_PED_TO_FACE_ENTITY`)
 
         local data = {
             model = carriedModel,
@@ -276,9 +279,9 @@ CreateThread(function()
         height = CalculateTarpHeight(totalItem)
 
         TaskGoStraightToCoord(cache.ped, offset.x, offset.y, offset.z, 3.0, 1000, GetEntityHeading(wagon), 0)
-        lib.waitFor(function() if GetScriptTaskStatus(cache.ped, `SCRIPT_TASK_GO_STRAIGHT_TO_COORD`, true) == 8 then return 'ok' end end)
+        TaskStatus(`SCRIPT_TASK_GO_STRAIGHT_TO_COORD`)
         TaskPlaceCarriedEntityAtCoord(cache.ped, carriedEntity, GetEntityCoords(wagon), 1.0, 5)
-        lib.waitFor(function() if GetScriptTaskStatus(cache.ped, `SCRIPT_TASK_PLACE_CARRIED_ENTITY_AT_COORD`, true) == 8 then return 'ok' end end)
+        TaskStatus(`SCRIPT_TASK_PLACE_CARRIED_ENTITY_AT_COORD`)
 
         DeleteEntity(carriedEntity)
         SetBatchTarpHeight(wagon, height, false)
@@ -317,11 +320,7 @@ CreateThread(function()
         SetEntityVisible(cargo, false)
         FreezeEntityPosition(cargo, true)
 
-        lib.waitFor(function()
-            if GetScriptTaskStatus(cache.ped, `SCRIPT_TASK_PICKUP_CARRIABLE_ENTITY`, true) == 8 then
-                return 'ok'
-            end
-        end)
+        TaskStatus(`SCRIPT_TASK_PICKUP_CARRIABLE_ENTITY`)
 
         FreezeEntityPosition(cargo, false)
         SetEntityVisible(cargo, true)
